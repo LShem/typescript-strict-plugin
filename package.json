@@ -1,11 +1,11 @@
 {
   "name": "typescript-strict-plugin",
-  "version": "2.4.4",
+  "version": "1.0.0",
   "description": "Typescript tools that help with migration to the strict mode",
   "author": "Allegro",
   "contributors": [
-    "Jaroslaw Glegola <jaroslaw.glegola@allegro.pl>",
-    "Kamil Krysiak <kamil.krysiak@allegro.pl>"
+    "Jaroslaw Glegola",
+    "Kamil Krysiak"
   ],
   "keywords": [
     "TypeScript Strict",
@@ -13,11 +13,11 @@
     "TypeScript Language Service"
   ],
   "bugs": {
-    "url": "https://github.com/allegro/typescript-strict-plugin/issues"
+    "url": "https://github.com/lshem/typescript-strict-plugin/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/allegro/typescript-strict-plugin.git"
+    "url": "git+https://github.com/lshem/typescript-strict-plugin.git"
   },
   "license": "MIT",
   "bin": {
@@ -88,5 +88,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "homepage": "https://github.com/allegro/typescript-strict-plugin#readme"
+  "homepage": "https://github.com/lshem/typescript-strict-plugin#readme"
 }
