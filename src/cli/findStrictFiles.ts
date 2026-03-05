@@ -1,7 +1,7 @@
 import { getPosixFilePath, isFile } from '../common/utils';
-import * as typescript from './typescript/typescript';
 import { CliStrictFileChecker } from './CliStrictFileChecker';
 import { getPluginConfig } from './getPluginConfig';
+import { exec } from 'child_process';
 
 export async function findStrictFiles(): Promise<string[]> {
   const filesCheckedByTS = await getFilesCheckedByTs();
@@ -23,8 +23,31 @@ const filterOutNodeModulesFiles = (files: string[]): string[] => {
 };
 
 async function getFilesCheckedByTs(): Promise<string[]> {
-  const filesCheckedByTs = await typescript.compile();
-  const filePaths = filesCheckedByTs.split(/\r?\n/).filter(isFile).map(getPosixFilePath);
+  const appFilesCheckedByTs = await getFilesFromTSConfigApp();
+  const appFilePaths = appFilesCheckedByTs.split(/\r?\n/).filter(isFile).map(getPosixFilePath);
+  const specFilesCheckedByTs = await getFilesFromTSConfigSpec();
+  const specFilePaths = specFilesCheckedByTs.split(/\r?\n/).filter(isFile).map(getPosixFilePath);
 
-  return filterOutNodeModulesFiles(filePaths);
+  return filterOutNodeModulesFiles([...appFilePaths, ...specFilePaths]);
+}
+
+function getFilesFromTSConfigApp(tsconfigPath = './tsconfig.app.json'): Promise<string> {
+  return new Promise((resolve, reject) => {
+    exec(`tsc -p ${tsconfigPath} --listFilesOnly`, (error, stdout, stderr) => {
+      if (error) return reject(error);
+      if (stderr) console.error(stderr);
+
+      resolve(stdout);
+    });
+  });
+}
+function getFilesFromTSConfigSpec(tsconfigPath = './tsconfig.spec.json'): Promise<string> {
+  return new Promise((resolve, reject) => {
+    exec(`tsc -p ${tsconfigPath} --listFilesOnly`, (error, stdout, stderr) => {
+      if (error) return reject(error);
+      if (stderr) console.error(stderr);
+
+      resolve(stdout);
+    });
+  });
 }
